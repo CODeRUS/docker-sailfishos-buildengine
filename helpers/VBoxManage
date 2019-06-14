@@ -1,0 +1,35 @@
+#!/bin/bash
+
+DOCKER_IMAGE_NAME="buildengine-sdk-instance"
+CONTAINER_RUN_SCRIPT="$HOME/workplace/docker-sailfishos-buildengine/run.sh"
+if $(docker inspect -f {{.State.Running}} "$DOCKER_IMAGE_NAME" 2>/dev/null | grep true > /dev/null); then
+    RUNNING="yes"
+fi
+
+if [ "$#" -eq 2 -a "$1" == "list" -a "$2" == "runningvms" ]; then
+    if [ "x$RUNNING" == "xyes" ]; then
+        echo "\"Sailfish OS Build Engine\" {a8481bdf-df28-4bdc-b555-c19ac4c8185d}"
+    fi
+elif [ "$#" -eq 2 -a "$1" == "showvminfo" -a "$2" == "Sailfish OS Build Engine" ]; then
+    if [ "x$RUNNING" == "xyes" ]; then
+        echo "Session name:    headless"
+    fi
+elif [ "$#" -eq 3 -a "$1" == "controlvm" -a "$2" == "Sailfish OS Build Engine" -a "$3" == "acpipowerbutton" ]; then
+    if [ "x$RUNNING" == "x" ]; then
+        echo "# Running docker image acpi!" >> $HOME/vboxmanage.log
+        $CONTAINER_RUN_SCRIPT
+    else
+        echo "# Stopiing docker container!" >> $HOME/vboxmanage.log
+        docker kill "$DOCKER_IMAGE_NAME"
+    fi
+elif [ "$#" -eq 4 -a "$1" == "startvm" -a "$2" == "Sailfish OS Build Engine" ]; then
+    echo "# Running docker image startvm!" >> $HOME/vboxmanage.log
+    $CONTAINER_RUN_SCRIPT
+else
+    echo "* VBoxManage unhandled command" >> $HOME/vboxmanage.log
+    echo "# args count: $#" >> $HOME/vboxmanage.log
+    for ARG in "$@"; do
+        echo "# arg \"$ARG\"" >> $HOME/vboxmanage.log
+    done
+    /usr/bin/vboxmanage "$@"
+fi
