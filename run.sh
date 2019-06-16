@@ -8,7 +8,9 @@ IMAGE_NAME="buildengine-sdk"
 CONTAINER_NAME="buildengine-sdk-instance"
 
 docker run -d --rm \
-    --network=host \
+    --privileged \
+    -p "2222:2222" \
+    -p "8080:8080" \
 	--name "$CONTAINER_NAME" \
     --volume "$USERDIR:/home/mersdk/share" \
     --volume "$USERDIR:/home/src1" \

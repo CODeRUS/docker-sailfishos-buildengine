@@ -2,7 +2,7 @@
 
 set -ex
 
-bash build.sh buildengine.ks i486 $1
-bash build.sh tooling.ks i486 $1
-bash build.sh target.ks i486 $1
-bash build.sh target.ks armv7hl $1
+bash /share/build/build.sh /share/build/buildengine.ks i486 $1
+bash /share/build/build.sh /share/build/tooling.ks i486 $1
+bash /share/build/build.sh /share/build/target.ks i486 $1
+bash /share/build/build.sh /share/build/target.ks armv7hl $1

@@ -53,5 +53,5 @@ if [ -n "$IMG_NAME" ]; then
     echo "BUILD: $IMG_NAME" >> $INSTALL_ROOT/etc/meego-release
 fi
 
-cp -f /share/mer-tooling-chroot $INSTALL_ROOT/
+cp -f /share/build/mer-tooling-chroot $INSTALL_ROOT/
 %end
