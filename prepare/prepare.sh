@@ -29,6 +29,10 @@ ssh-keygen -A
 
 sudo -u mersdk /bin/bash /share/prepare/install.sh $3
 
+sed -i "s/1024/unlimited/" /etc/security/limits.d/90-nproc.conf
+sed -i "s/1024/unlimited/" /srv/mer/targets/SailfishOS-$3-armv7hl/etc/security/limits.d/90-nproc.conf
+sed -i "s/1024/unlimited/" /srv/mer/targets/SailfishOS-$3-i486/etc/security/limits.d/90-nproc.conf
+
 echo "# clearing zypper cache"
 rm -rf /var/cache/zypp/*
 rm -rf /srv/mer/targets/SailfishOS-$3-armv7hl/var/cache/zypp/*
