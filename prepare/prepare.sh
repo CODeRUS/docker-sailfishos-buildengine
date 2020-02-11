@@ -2,22 +2,31 @@
 
 set -ex
 
-echo "# preparing buildengine container"
+if [ -z "$1" ]
+then
+  echo "Windows ?"
+  sed -i '/shopt -s extglob/ {
+   r /share/prepare/mb2.windows
+   N
+  }' /usr/bin/mb2
+else
+  echo "# preparing buildengine container"
 
-OLD_UID=$(id -u mersdk) ;\
-OLD_GID=$(id -g mersdk) ;\
+  OLD_UID=$(id -u mersdk) ;\
+  OLD_GID=$(id -g mersdk) ;\
 
-echo "# changing mersdk uid to $1"
-usermod -u $1 mersdk ;\
+  echo "# changing mersdk uid to $1"
+  usermod -u $1 mersdk ;\
 
-echo "# changing mersdk gid to $2"
-groupmod -g $2 mersdk ;\
+  echo "# changing mersdk gid to $2"
+  groupmod -g $2 mersdk ;\
 
-echo "# changing gid ownership from $OLD_GID to $2"
-find /home -group $OLD_GID -exec chgrp -h mersdk {} \; ;\
+  echo "# changing gid ownership from $OLD_GID to $2"
+  find /home -group $OLD_GID -exec chgrp -h mersdk {} \;
 
-echo "# changing uid ownership from $OLD_UID to $1"
-find /home -user $OLD_UID -exec chown -h mersdk {} \;
+  echo "# changing uid ownership from $OLD_UID to $1"
+  find /home -user $OLD_UID -exec chown -h mersdk {} \;
+fi
 
 echo "# refreshing repositories"
 zypper ref

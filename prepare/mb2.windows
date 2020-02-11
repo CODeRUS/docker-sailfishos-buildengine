@@ -1,0 +1,20 @@
+# hack for qmake in docker share
+# see https://forum.qt.io/topic/98213/qmake-error-with-project-files-on-samba-share
+
+SHARE="/home/mersdk/share"
+SHADOW="/home/mersdk/.src"
+
+copy_src() {
+  SRC=$(dirname $1)
+  BASE=$(basename $1)
+  mkdir -p $SHADOW
+  rm -rf $SHADOW/*
+  cp -r $SRC/* $SHADOW
+  echo $SHADOW
+}
+
+if [[ "$3" == "qmake" ]] && [[ "${4##$SHARE}" != "${4}" ]]
+then
+  set -- "${@:1:3}" "$(copy_src $4)" "${@:5}"
+fi 
+

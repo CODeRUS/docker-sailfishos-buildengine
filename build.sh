@@ -53,3 +53,4 @@ docker commit \
     $CONTAINER_NAME $IMAGE_SDK_NAME
 
 docker rm $CONTAINER_NAME
+docker rmi $IMAGE_BASE_NAME
