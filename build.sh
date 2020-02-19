@@ -19,7 +19,7 @@ docker import \
     "$IMAGE_BASE_NAME"
 
 USERDIR=$(eval echo ~$USER)
-SDK=$(grep MerSDK.InstallDir -A1 $USERDIR/.config/SailfishOS-SDK/qtcreator/mersdk.xml | tail -n 1 | sed -e 's/<[^>]*>//g' | tr -d '[:space:]')
+SDK=$(grep BuildEngines.InstallDir -A1 $USERDIR/.config/SailfishSDK/qtcreator/libsfdk-buildengines.xml | tail -n 1 | sed -e 's/<[^>]*>//g' | tr -d '[:space:]')
 SDK=${SDK:-$USERDIR/SailfishOS}
 
 IMAGE_SDK_NAME="buildengine-sdk"
